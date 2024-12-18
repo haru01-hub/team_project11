@@ -18,6 +18,7 @@ export async function POST(request) {
           author: book.author,
           image: book.image,
           description: book.description,
+          link: book.link,
         },
       ])
       if (error) {

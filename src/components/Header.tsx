@@ -44,17 +44,23 @@ export default function Header() {
           {/* 로그인 상태일 때만 표시되는 버튼들 */}
           {status === 'authenticated' && (
             <div className="flex items-center font-bold">
-              <Link
+              {/* <Link
                 href="/book-rank"
                 className="text-white hover:text-yellow-300 mr-4"
               >
                 Reader Ranking
-              </Link>
+              </Link> */}
               <Link
                 href="/book-list"
                 className="text-white hover:text-yellow-300 mr-4"
               >
                 Book List
+              </Link>
+              <Link
+                href="/book-sns"
+                className="text-white hover:text-yellow-300 mr-4"
+              >
+                Book Sns
               </Link>
             </div>
           )}

@@ -1,4 +1,4 @@
-// utils/saveBooksToSupabase.js
+// src/utils/saveBooksToSupabase.js
 import { createClient } from '@supabase/supabase-js'
 import fetchBookData from 'utils/fetchBookData'
 
@@ -22,6 +22,7 @@ const saveBooksToSupabase = async () => {
         author: book.author,
         image: book.image,
         description: book.description,
+        link: book.link,
       },
     ])
 

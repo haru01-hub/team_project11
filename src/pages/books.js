@@ -97,6 +97,16 @@ const BooksPage = () => {
             <p>{book.author}</p>
             <img src={book.image} alt={book.title} />
             <p>{book.description}</p>
+
+            <h3>
+              <a
+                href={book.link}
+                target="_blank"
+                rel="noopener noreferrer" // 새 탭에서 열리도록
+              >
+                <button>상세 페이지 보기</button>
+              </a>
+            </h3>
             <button onClick={() => handleSelectBook(book)}>
               {selectedBooks[book.id] ? '선택 해제' : '선택'}
             </button>
@@ -116,6 +126,15 @@ const BooksPage = () => {
             <p>{book.author}</p>
             <img src={book.image} alt={book.title} />
             <p>{book.description}</p>
+            <h3>
+              <a
+                href={book.link}
+                target="_blank"
+                rel="noopener noreferrer" // 새 탭에서 열리도록
+              >
+                <button>상세 페이지 보기</button>
+              </a>
+            </h3>
           </li>
         ))}
       </ul>
@@ -129,6 +148,15 @@ const BooksPage = () => {
             <p>{book.author}</p>
             <img src={book.image} alt={book.title} />
             <p>{book.description}</p>
+            <h3>
+              <a
+                href={book.link}
+                target="_blank"
+                rel="noopener noreferrer" // 새 탭에서 열리도록
+              >
+                <button>상세 페이지 보기</button>
+              </a>
+            </h3>
             <button onClick={() => handleDeleteBook(book.id)}>삭제</button>
           </li>
         ))}

@@ -26,6 +26,7 @@ const fetchBookData = async (query) => {
       author: item.author,
       image: item.image,
       description: item.description,
+      link: item.link,
     }))
 
     return books

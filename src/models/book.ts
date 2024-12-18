@@ -6,6 +6,7 @@ export interface Book {
   title: string
   author: string
   cover_image: string
+  link: string
   // 필요한 다른 필드들 추가
 }
 

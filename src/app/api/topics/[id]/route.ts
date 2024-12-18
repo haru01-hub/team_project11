@@ -1,7 +1,70 @@
+// //api/topics/[id]/route.ts
+// import { NextRequest, NextResponse } from 'next/server'
+// import { supabase } from 'src/lib/supabase'
+
+// // GET 요청: 특정 토픽의 세부 정보를 가져옵니다.
+// export async function GET(
+//   request: NextRequest,
+//   { params }: { params: { id: string } }
+// ) {
+//   const { id } = params
+
+//   // id 값이 없으면 오류 처리
+//   if (!id) {
+//     return NextResponse.json(
+//       { message: 'Topic ID is missing' },
+//       { status: 400 }
+//     )
+//   }
+
+//   try {
+//     const { data: topic, error } = await supabase
+//       .from('topics')
+//       .select('*')
+//       .eq('id', id)
+//       .single()
+
+//     // 토픽을 찾을 수 없거나 에러가 발생한 경우 처리
+//     if (error || !topic) {
+//       return NextResponse.json({ message: 'Topic not found' }, { status: 404 })
+//     }
+
+//     return NextResponse.json({ topic })
+//   } catch (error) {
+//     console.error('Error fetching topic:', error)
+//     return NextResponse.json(
+//       { message: 'Internal server error' },
+//       { status: 500 }
+//     )
+//   }
+// }
+
+// // DELETE 요청: 특정 토픽을 삭제합니다.
+// export async function DELETE(request: NextRequest) {
+//   try {
+//     const id = request.nextUrl.searchParams.get('id')
+//     if (!id) {
+//       return NextResponse.json({ message: 'ID is required' }, { status: 400 })
+//     }
+
+//     const { error } = await supabase.from('topics').delete().eq('id', id)
+
+//     if (error) throw error
+
+//     return NextResponse.json({ message: 'Topic deleted' })
+//   } catch (error) {
+//     console.error('Error deleting topic:', error)
+//     return NextResponse.json(
+//       { message: 'Internal server error' },
+//       { status: 500 }
+//     )
+//   }
+// }
+
 // app/api/topics/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server'
-import Topic from '@/src/models/topic'
-import connectMongoDB from '@/src/lib/mongodb'
+import Topic from 'src/models/topic'
+import connectMongoDB from 'src/lib/mongodb'
 
 // PUT: 토픽 수정
 export async function PUT(

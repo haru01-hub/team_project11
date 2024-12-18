@@ -22,6 +22,7 @@ const saveBooksToSupabase = async () => {
         author: book.author,
         image: book.image,
         description: book.description,
+        link: book.link,
       },
     ])
 

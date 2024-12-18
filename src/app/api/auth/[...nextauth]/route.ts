@@ -1,3 +1,4 @@
+//src/app/api/auth/[...nextauth]/route.ts
 import { handlers } from 'src/auth' // Referring to the auth.ts we just created
 export const { GET, POST } = handlers
 
@@ -18,5 +19,3 @@ export const authOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
 }
-
-export default NextAuth(authOptions)

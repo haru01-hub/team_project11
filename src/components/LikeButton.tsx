@@ -1,144 +1,115 @@
-// // 'use client'
-// // import { useState, useEffect } from 'react'
-// // import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
+'use client'
+import { useState, useEffect } from 'react'
+import { useSession } from 'next-auth/react'
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 
-// // interface LikeButtonProps {
-// //   topicId: string
-// //   initialLikes: number
-// //   userId: string
-// // }
+interface LikeButtonProps {
+  topicId: string
+  initialLikes: number
+  userId: string
+}
 
-// // export default function LikeButton({
-// //   topicId,
-// //   initialLikes,
-// //   userId,
-// // }: LikeButtonProps) {
-// //   const [likes, setLikes] = useState<number>(initialLikes)
-// //   const [hasLiked, setHasLiked] = useState<boolean>(false)
+export default function LikeButton({
+  topicId,
+  initialLikes,
+  userId,
+}: LikeButtonProps) {
+  const { data: session } = useSession()
+  const [likes, setLikes] = useState<number>(initialLikes)
+  const [hasLiked, setHasLiked] = useState<boolean>(false)
 
-// //   useEffect(() => {
-// //     // 서버에서 좋아요 상태 가져오기
-// //     const fetchLikeStatus = async () => {
-// //       try {
-// //         const res = await fetch(`/api/topics/${topicId}`)
-// //         if (!res.ok) {
-// //           throw new Error('Failed to fetch topic data')
-// //         }
-// //         const data = await res.json()
-// //         setLikes(data.topic.likes)
-// //         setHasLiked(data.topic.likedBy.includes(userId)) // 사용자가 이미 좋아요를 눌렀는지 확인
-// //       } catch (error) {
-// //         console.error('Error fetching like status:', error)
-// //       }
-// //     }
+  // 서버에서 좋아요 상태를 가져오는 useEffect
+  useEffect(() => {
+    const fetchLikeStatus = async () => {
+      try {
+        const res = await fetch(`/api/topics/${topicId}`)
+        const data = await res.json()
+        console.log('Topic data:', {
+          id: topicId,
+          authorName: data.topic?.authorName, // authorName 확인
+          likes: data.topic?.likes,
+          likedBy: data.topic?.likedBy,
+          fullData: data.topic, // 전체 데이터 구조 확인
+        })
 
-// //     fetchLikeStatus()
-// //   }, [topicId, userId])
+        console.log('Current user:', {
+          email: session?.user?.email,
+          name: session?.user?.name,
+          fullSession: session, // 전체 세션 정보 확인
+        })
 
-// //   const handleLike = async () => {
-// //     if (hasLiked) return
+        if (data && data.topic) {
+          setLikes(data.topic.likes || 0)
+          setHasLiked(data.topic.likedBy?.includes(session?.user?.email))
+        }
+      } catch (error) {
+        console.error('Error fetching like status:', error)
+      }
+    }
 
-// //     try {
-// //       const res = await fetch('/api/topics/like', {
-// //         method: 'POST',
-// //         body: JSON.stringify({ topicId, userId }),
-// //         headers: { 'Content-Type': 'application/json' },
-// //       })
+    fetchLikeStatus()
+  }, [topicId, userId])
 
-// //       if (!res.ok) {
-// //         throw new Error('Failed to like the topic')
-// //       }
+  // 좋아요를 눌렀을 때 호출되는 함수
+  const handleLike = async () => {
+    if (!session?.user?.email) {
+      console.log('No user session')
+      return
+    }
+    if (hasLiked) {
+      console.log('Already liked')
+      return
+    }
 
-// //       const data = await res.json()
-// //       setLikes(data.likes)
-// //       setHasLiked(true)
-// //     } catch (error) {
-// //       console.error('Error liking the topic:', error)
-// //     }
-// //   }
+    try {
+      const payload = {
+        topicId,
+        userId: session.user.email,
+      }
+      console.log('Sending payload:', payload)
 
-// //   return (
-// //     <button
-// //       onClick={handleLike}
-// //       disabled={hasLiked}
-// //       className={`flex items-center gap-2 p-2 ${
-// //         hasLiked ? 'text-red-500' : 'text-gray-500'
-// //       }`}
-// //     >
-// //       {hasLiked ? <AiFillHeart size={24} /> : <AiOutlineHeart size={24} />}
-// //       {likes}
-// //     </button>
-// //   )
-// // }
-// import { useState } from 'react'
-// import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
+      const res = await fetch('/api/topics/like', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      })
 
-// interface LikeButtonProps {
-//   topicId: string
-//   userLiked: boolean
-// }
+      // 응답 전체를 로깅
+      console.log('Server response:', {
+        status: res.status,
+        statusText: res.statusText,
+      })
 
-// const LikeButton: React.FC<LikeButtonProps> = ({ topicId, userLiked }) => {
-//   const [liked, setLiked] = useState(userLiked)
+      const data = await res.json()
+      console.log('Response data:', data)
 
-//   const handleLike = async () => {
-//     const response = await fetch('/api/topics/like', {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify({ topic_id: topicId }),
-//     })
+      if (!res.ok) {
+        throw new Error(data.message || 'Failed to update like status')
+      }
+      // 성공적인 응답일 경우에만 상태 업데이트
+      setLikes(data.likes)
+      setHasLiked(true)
+    } catch (error: any) {
+      console.error('Like operation failed:', {
+        error: error.message,
+        topicId,
+        userId: session.user.email,
+      })
+    }
+  }
 
-//     if (response.ok) {
-//       setLiked(true)
-//     } else {
-//       const error = await response.json()
-//       console.error('Error liking topic:', error.message)
-//     }
-//   }
-
-//   return (
-//     <button onClick={handleLike} disabled={liked} className="like-button">
-//       {liked ? (
-//         <AiFillHeart color="red" size={24} />
-//       ) : (
-//         <AiOutlineHeart size={24} />
-//       )}
-//     </button>
-//   )
-// }
-
-// export default LikeButton
-
-// 'use client'
-// import { useState } from 'react'
-// import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
-
-// export default function LikeButton({ topicId }) {
-//   const [liked, setLiked] = useState(false)
-
-//   const handleLike = async () => {
-//     const res = await fetch('/api/likes', {
-//       method: 'POST',
-//       headers: { 'Content-Type': 'application/json' },
-//       body: JSON.stringify({ topic_id: topicId }),
-//     })
-
-//     if (res.ok) {
-//       setLiked(true)
-//     } else {
-//       console.error('Error liking topic')
-//     }
-//   }
-
-//   return (
-//     <button onClick={handleLike} disabled={liked}>
-//       {liked ? (
-//         <AiFillHeart color="red" size={24} />
-//       ) : (
-//         <AiOutlineHeart size={24} />
-//       )}
-//     </button>
-//   )
-// }
+  return (
+    <button
+      onClick={handleLike}
+      disabled={hasLiked || !session}
+      className={`flex items-center gap-2 p-2 ${
+        hasLiked ? 'text-red-500' : 'text-gray-500'
+      }`}
+    >
+      {hasLiked ? <AiFillHeart size={24} /> : <AiOutlineHeart size={24} />}
+      {likes}
+    </button>
+  )
+}
