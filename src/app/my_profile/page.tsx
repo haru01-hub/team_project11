@@ -36,12 +36,6 @@ export default function MyProfile() {
         style={{ width: '100%', height: '90px' }}
       >
         <div className="flex items-center justify-between mr-5 mt-10">
-          {/* <h1 className="ml-10 pt-7">
-            <span className="ml-5 mr-5 font-bold text-3xl text-yellow-100">
-              10,000
-            </span>
-            Point
-          </h1> */}
           <div className="flex items-center justify-center text-gray-800">
             <Link href="/receipt">
               <p className="p-3 bg-yellow-100 rounded-3xl mt-5 mr-5 ml-5 hover:bg-blue-200">
