@@ -100,14 +100,6 @@ export default function TopicList() {
           </div>
         )
       })}
-      <div className="flex justify-end">
-        <Link
-          className="bg-green-800 text-white font-bold px-4 py-2 rounded-md"
-          href="/addTopic"
-        >
-          Add Write
-        </Link>
-      </div>
     </div>
   )
 }

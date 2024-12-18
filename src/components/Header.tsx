@@ -56,7 +56,7 @@ export default function Header() {
               >
                 Book List
               </Link>
-              <Link
+              {/* <Link
                 href="/book-sns"
                 className="text-white hover:text-yellow-300 mr-4"
               >
@@ -67,7 +67,7 @@ export default function Header() {
                 className="text-white hover:text-yellow-300 mr-4"
               >
                 Book Suggestion
-              </Link>
+              </Link> */}
             </div>
           )}
 
