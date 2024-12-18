@@ -6,7 +6,8 @@ export default function SignInButton() {
       <form
         action={async () => {
           'use server'
-          await signIn('google', { redirectTo: '/dashboard' })
+          await signIn('google', { redirectTo: '/' })
+          // await signIn('google', { redirectTo: '/dashboard' })
         }}
       >
         <button
@@ -24,7 +25,8 @@ export default function SignInButton() {
       <form
         action={async () => {
           'use server'
-          await signIn('github', { redirectTo: '/dashboard' })
+          await signIn('github', { redirectTo: '/' })
+          // await signIn('github', { redirectTo: '/dashboard' })
         }}
       >
         <button
