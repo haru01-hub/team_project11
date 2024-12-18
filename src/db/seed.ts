@@ -5,7 +5,7 @@ import { drizzle } from 'drizzle-orm/node-postgres'
 import { Client } from 'pg'
 
 import * as schema from './schema'
-import SampleData from '@/src/lib/sample-data'
+import SampleData from 'src/lib/sample-data'
 
 loadEnvConfig(cwd())
 

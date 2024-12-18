@@ -12,3 +12,8 @@
 
 //   return <p>Hello {data.user.email}</p>
 // }
+import React from 'react'
+
+export default function page() {
+  return <div>page</div>
+}

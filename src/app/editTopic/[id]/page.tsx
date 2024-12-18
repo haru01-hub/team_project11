@@ -1,5 +1,5 @@
-import { auth } from '@/src/auth'
-import EditTopicForm from '@/src/components/EditTopicForm'
+import { auth } from 'src/auth'
+import EditTopicForm from 'src/components/EditTopicForm'
 import { redirect } from 'next/navigation'
 const apiUrl = process.env.API_URL
 
