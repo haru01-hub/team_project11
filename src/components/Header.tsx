@@ -62,6 +62,12 @@ export default function Header() {
               >
                 Book Sns
               </Link>
+              <Link
+                href="/suggestion"
+                className="text-white hover:text-yellow-300 mr-4"
+              >
+                Book Suggestion
+              </Link>
             </div>
           )}
 
